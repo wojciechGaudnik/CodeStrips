@@ -5,7 +5,7 @@ const {expect, assert} = require('chai');
 const request = require('supertest');
 const sqlite3 = require('sqlite3');
 const express = require('express');
-const Structured = require('structured');
+// const Structured = require('structured');
 const fs = require('fs');
 const code = fs.readFileSync('app.js', 'utf8');
 
@@ -22,13 +22,9 @@ describe('Express server', function() {
     });
 
     it('listens at the correct process.env.PORT or 4001.', function() {
-        const struct = function() {
-            const $PORT = process.env.PORT || 4001;
-            app.listen($PORT);
-        }
-
-        let isMatch = Structured.match(code, struct);
-        assert.isOk(isMatch, 'Did you use `app.listen` to start your server listening at the correct port?');
+        const regex = /const PORT = process.env.PORT \|\| 4001;/gi;
+        let isMatch = code.match(regex) !== null;
+        assert.isOk(isMatch, "Did you use `app.listen` to start your server listening at the correct port?");
     });
 });
 
