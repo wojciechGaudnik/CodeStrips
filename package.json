@@ -1,0 +1,32 @@
+{
+  "name": "codestrips",
+  "version": "1.0.0",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "codecademy",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "express": "^4.17.1",
+    "mocha": "^7.1.2",
+    "morgan": "^1.10.0",
+    "sqlite3": "^4.2.0",
+    "structured": "^0.1.2",
+    "supertest": "^4.0.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wojciechGaudnik/CodeStrips.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wojciechGaudnik/CodeStrips/issues"
+  },
+  "homepage": "https://github.com/wojciechGaudnik/CodeStrips#readme",
+  "description": ""
+}
