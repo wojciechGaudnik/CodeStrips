@@ -8,12 +8,8 @@ const db = new sqlite3.Database('./db.sqlite');
 const PORT = process.env.PORT || 4001;
 
 app.use(express.static('public'));
-app.use(morgan('dev'));
+app.use(morgan('short'));
 app.use(bodyParser.json());
-
-app.listen(PORT, () => {
-    console.log(`Server is listening on port: ${PORT}`);
-});
 
 app.get('/strips', (req, res, next) => {
     db.all(`select * from Strip;`, (err, rows) => {
@@ -24,6 +20,47 @@ app.get('/strips', (req, res, next) => {
         }
     }
 )
+});
+
+const validateStrip = (req, res, next) => {
+    const stripToCreate = req.body.strip;
+    if (
+        !stripToCreate.head ||
+        !stripToCreate.body ||
+        !stripToCreate.bubbleType ||
+        !stripToCreate.background) {
+        console.log("error");
+        return res.sendStatus(400);
+    }
+    console.log("ok");
+    next();
+}
+
+app.post('/strips', validateStrip, (req, res, next) => {
+    console.log("start");
+    const stripToCreate = req.body.strip;
+    console.log(stripToCreate);
+    console.log("start");
+    db.run(
+        `insert into Strip (head, body, bubble_type, background, bubble_text, caption)
+        values ($head, $body, $bubbleType, $background, $bubbleText, $caption)`,
+        {
+            $head: stripToCreate.head,
+            $body: stripToCreate.body,
+            $bubbleType: stripToCreate.bubbleType,
+            $background: stripToCreate.background,
+            $bubbleText: stripToCreate.bubbleText,
+            $caption: stripToCreate.caption,
+        }, function (err) {
+            if (err) {
+                return res.sendStatus(500);
+            }
+        })
+    res.sendStatus(200);
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is listening on port: ${PORT}`);
 });
 
 module.exports = app;
