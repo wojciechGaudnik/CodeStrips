@@ -15,7 +15,7 @@ app.listen(PORT, () => {
     console.log(`Server is listening on port: ${PORT}`);
 });
 
-app.get('/', (req, res, next) => {
+app.get('/strips', (req, res, next) => {
     db.all(`select * from Strip;`, (err, rows) => {
         if (err) {
             res.sendStatus(500);
@@ -24,8 +24,6 @@ app.get('/', (req, res, next) => {
         }
     }
 )
-
-    res.send('hello world')
 });
 
 module.exports = app;

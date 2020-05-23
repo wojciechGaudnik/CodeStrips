@@ -13,4 +13,7 @@ db.serialize(() => {
                 bubble_text text not null,
                 caption     text not null default ''
             )`);
+    db.run("INSERT INTO Strip (head, body, bubble_type, background, bubble_text, caption) VALUES ('angry', 'plus', 'statement', 'boat', 'test1', 'testcaption1');");
+    db.run("INSERT INTO Strip (head, body, bubble_type, background, bubble_text, caption) VALUES ('angry', 'plus', 'statement', 'boat', 'test2', 'testcaption2');");
+    db.run("INSERT INTO Strip (head, body, bubble_type, background, bubble_text, caption) VALUES ('angry', 'plus', 'statement', 'boat', 'test3', 'testcaption3');");
 })
