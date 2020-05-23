@@ -32,15 +32,11 @@ const validateStrip = (req, res, next) => {
         console.log("error");
         return res.sendStatus(400);
     }
-    console.log("ok");
     next();
 }
 
 app.post('/strips', validateStrip, (req, res, next) => {
-    console.log("start");
     const stripToCreate = req.body.strip;
-    console.log(stripToCreate);
-    console.log("start");
     db.run(
         `insert into Strip (head, body, bubble_type, background, bubble_text, caption)
         values ($head, $body, $bubbleType, $background, $bubbleText, $caption)`,
@@ -55,8 +51,13 @@ app.post('/strips', validateStrip, (req, res, next) => {
             if (err) {
                 return res.sendStatus(500);
             }
-        })
-    res.sendStatus(200);
+            db.get(`select * from Strip where id=${this.lastID}`, (err, row) => {
+                if (!row) {
+                    return res.sendStatus(500);
+                }
+                res.status(201).send({strip: row});
+            });
+        });
 });
 
 app.listen(PORT, () => {
